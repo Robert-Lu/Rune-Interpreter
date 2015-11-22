@@ -1,3 +1,8 @@
+/*==================================================== 
+This head file contains the prototype of class Interp-
+reter. 
+======================================================*/ 
+
 #ifndef _INTERPRETER_H_
 #define _INTERPRETER_H_
 
