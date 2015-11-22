@@ -2,8 +2,6 @@
 #include <iostream>
 #include <map>
 
-//std::map<>
-
 Interpreter::Interpreter()
 {
 
@@ -48,7 +46,6 @@ DataUnion Interpreter::getValue(string id)
         throw (string)"Use \"" + id + "\" before defining it.";
 }
 
-
 DataUnion Interpreter::std_read(TokenKind kind)
 {
     DataUnion du;
@@ -72,7 +69,6 @@ DataUnion Interpreter::std_read(TokenKind kind)
     du.hasInit = true;
     return du;
 }
-
 
 void Interpreter::std_write(DataUnion du)
 {
