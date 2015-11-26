@@ -1,3 +1,8 @@
+/*====================================================
+This cpp file contain the main() function.
+All of the Preprocessor, Scanner, Parser, Interpreter
+are created an instance there and excuted.
+======================================================*/
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,6 +26,7 @@ std::string read_all_from_file(std::string const file_name)
 
 void show_help()
 {
+    // Show help information.
     std::cout << "Usage: rune [Options] filename\n";
     std::cout << "Options: \n";
     std::cout << "  -token:\tShow the tokens of Scanning procedure.\n";
@@ -29,6 +35,7 @@ void show_help()
 
 void show_tokens(std::vector<Token> tokens)
 {
+    // Show tokens with format TOKEN_NAME /TOKEN_TYPE/
     using namespace std;
     cout << "TOKENS:\n";
     map<TokenType, string> dict = 
@@ -53,14 +60,18 @@ void show_tokens(std::vector<Token> tokens)
 
 int main(int argc, char *argv[])
 {
-    bool print_tokens = false, print_ast = false;
-    int name_count = 0;
-    string filename;
     using namespace std;
+    bool print_tokens = false, print_ast = false; 
+    // Refer whether tokens and ast need to be printed. 
+    int name_count = 0;
+    // Count the filename inputed.
+    string filename;
+    // Save the name of file.
     string raw;
 
     if (argc < 2)
     {
+        // A correct call of rune must given 2 or more args;
         show_help();
         return -2;
     }
@@ -91,6 +102,7 @@ int main(int argc, char *argv[])
         }
         if (name_count != 1)
         {
+            // if more than 1 filenames were inputed, show help and exit.
             show_help();
             return -2;
         }
@@ -98,6 +110,9 @@ int main(int argc, char *argv[])
     raw = read_all_from_file(filename);
     if (raw.size() == 0)
     {
+        // **There is a pitfall.
+        // **I'm not sure how to get known the existance of file.
+        // **So, deal as same when file not exist and empty.
         cout << "file not exist or nothing contained in file.";
         return -3;
     }
@@ -114,6 +129,7 @@ int main(int argc, char *argv[])
         {
             show_tokens(tokens);
         }
+        // print Tokens if has option "-tokens".
         Parser psr;
         auto ast = psr.parse(tokens);
         // Parse the Tokens to an Abstract Syntax Tree.

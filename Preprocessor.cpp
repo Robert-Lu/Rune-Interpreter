@@ -1,3 +1,15 @@
+/*====================================================
+This cpp file contains the implementation of class 
+Preprocessor.
+Steps:
+1 rune-replace: **planed to do another thing but now 
+                **just do some stripping and replacing.
+2 decomment:    //remove comments and empty lines;
+                **now it remove comments but let them 
+                **become empty lines and let the empty
+                **lines remain.
+3 separate:     add EOL and indent seperator;
+======================================================*/
 #include "Preprocessor.h"
 
 using std::string;

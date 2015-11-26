@@ -1,3 +1,7 @@
+/*====================================================
+This cpp file contains the implementation of class 
+Scanner. Scan a token vector from lines
+======================================================*/
 #include "Scanner.h"
 #include <regex>
 #include <map>
@@ -78,21 +82,22 @@ vector<Token> Scanner::scan(vector<string> const lines)
     bool is_empty_line;
     while (curr_line != lines.end())
     {
-        //let two iterators point to the current line.
+        // let two iterators point to the current line.
         strit = curr_line->begin();
         strend = curr_line->end();
         colno = 0;
         is_empty_line = true;
-
-        //deal with indents, add IndentInc and IndentDec
-        //when current indent is difference from old one.
         indent = 0;
+
+        // Count the indents.
         while (strit != strend && *strit == '\t')
         {
             strit++;
             colno++;
             indent += 1;
         }
+        // Deal with indents: Add IndentInc and IndentDec
+        // when current indent is difference from old one.
         if (indent != old_indent && strit != strend)
         {
             for (int i = 0; i < indent - old_indent; i++)
@@ -108,7 +113,7 @@ vector<Token> Scanner::scan(vector<string> const lines)
             old_indent = indent;
         }
 
-        //scan words into token vector.
+        // Scan words into token vector.
         try
         {
             while (word = get_word(), word.size() > 0)
@@ -199,22 +204,22 @@ TokenType Scanner::get_type(string word)
 {
     if (dictReversedWord.find(word) != dictReversedWord.end())
     {
-        //if word is in the dictionary of Reserved Word.
+        // if word is in the dictionary of Reserved Word.
         return ReservedWord;
     }
     if (dictTypeName.find(word) != dictTypeName.end())
     {
-        //if word is in the dictionary of Type Name.
+        // if word is in the dictionary of Type Name.
         return TypeName;
     }
     if (dictOperator.find(word) != dictOperator.end())
     {
-        //if word is in the dictionary of Operator.
+        // if word is in the dictionary of Operator.
         return Operator;
     }
     if (::isalpha(word[0]) || word[0] == '_')
     {
-        //else, if word starts with alpha or underline.
+        // else, if word starts with alpha or underline.
         for (char c : word)
             if (!::isalnum(c) && c != '_')
                 throw std::invalid_argument("Invalid charactor in identifier \"" + word + "\".");
@@ -239,6 +244,13 @@ TokenKind Scanner::get_kind(string word, TokenType type)
        /* std::regex nat_pattern("[0-9]+");
         std::regex real_pattern("[0-9]+\\.[0-9]+");
         std::regex str_pattern("\\\".*\\\"");*/
+        // **reviowsly use standard library <regex>
+        // **but it haven't been supported until
+        // **GNU 4.9, which is not commonly used.
+        // **Therefore, replace it with function
+        // **written by myself. For the regular
+        // **expressions I used are quite easy,
+        // **they are easy to implement.
         if (isNat(word))
             return ConstNat;
         if (isReal(word))
@@ -251,6 +263,7 @@ TokenKind Scanner::get_kind(string word, TokenType type)
 
 bool isNat(string word)
 {
+    // Do same with regular expression R"[+-]?[0-9]+"
     if (word[0] == '-' || word[0] == '+')
         word[0] = '0';
     for (char c : word)
@@ -261,6 +274,7 @@ bool isNat(string word)
 
 bool isReal(string word)
 {
+    // Do same with regular expression R"[+-]?[0-9]+\.[0-9]+"
     if (word[0] == '-' || word[0] == '+')
         word[0] = '0';
     int dot_count = 0;
@@ -276,5 +290,6 @@ bool isReal(string word)
 
 bool isString(string word)
 {
+    // Do same with regular expression R"\".*\""
     return word.back() == '\"' && word.front() == '\"';
 }

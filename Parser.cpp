@@ -1,3 +1,7 @@
+/*====================================================
+This cpp file contains the implementation of class 
+Parser.
+======================================================*/
 #include "Parser.h"
 
 #include <set>
@@ -422,8 +426,6 @@ pSyntaxTreeNode newNode(SyntaxKind kind, ChildrenList lst)
     t->children = lst;
     return t;
 }
-
-//Show Part --Testing Only
 
 void Parser::show_tree(pSyntaxTreeNode node, int indent)
 {
