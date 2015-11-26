@@ -4,7 +4,9 @@ Author: Wuyue LU
 
 Version: 1.0 
 
-Last Commit: 2015/11/25
+Last Commit: 2015/11/26
 
-Usage:  rune <source_file_name>
+Usage:  rune [Options] source_file_name
+    Options: -t -token Show the tokens of Scanning procedure.
+             -a -ast   Show the Abstract Parsing Tree of Parsing procedure.
 
