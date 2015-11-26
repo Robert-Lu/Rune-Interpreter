@@ -1,6 +1,8 @@
 #include "Interpreter.h"
 #include <iostream>
 #include <map>
+#include <sstream>
+#include <cmath>
 
 Interpreter::Interpreter()
 {
@@ -329,11 +331,11 @@ DataUnion Interpreter::factor(pSyntaxTreeNode node)
             switch (factor_node.token.kind)
             {
             case ConstNat:
-                temp.nat = std::stoi(factor_node.token.value);
+                std::stringstream(factor_node.token.value) >> temp.nat;
                 temp.type = Nat;
                 break;
             case ConstReal:
-                temp.real = std::stod(factor_node.token.value);
+                std::stringstream(factor_node.token.value) >> temp.real;
                 temp.type = Real;
                 break;
             case ConstString:
@@ -524,7 +526,7 @@ DataUnion DataUnion::operator==(DataUnion that)
     }
     else if (thiskind == thatkind && thatkind == Real)
     {
-        temp.nat = abs(temp.real - that.real) < 1.0e-10;
+        temp.nat = std::abs(temp.real - that.real) < 1.0e-10;
     }
     else
     {
@@ -549,7 +551,7 @@ DataUnion DataUnion::operator!=(DataUnion that)
     }
     else if (thiskind == thatkind && thatkind == Real)
     {
-        temp.nat = abs(this->real - that.real) < 1.0e-10;
+        temp.nat = std::abs(this->real - that.real) < 1.0e-10;
         temp.type = Nat;
     }
     else

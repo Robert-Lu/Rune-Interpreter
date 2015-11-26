@@ -3,6 +3,7 @@
 #include <set>
 #include <map>
 #include <iostream>
+#include <sstream>
 
 using std::vector;
 using std::string;
@@ -105,9 +106,11 @@ pSyntaxTreeNode Parser::parse(std::vector<Token> tokens)
     }
     catch (string msg)
     {
+        string strline, strcol;
+        std::stringstream(strline) << curr_token->pos.lineno;
+        std::stringstream(strcol) << curr_token->pos.colno;
         throw "Parser Error Occured. Compile FAIL.\n" +
-            std::to_string(curr_token->pos.lineno) + " : " + 
-            std::to_string(curr_token->pos.colno) + "\t" + msg;
+            strline + " : " + strcol + "\t" + msg;
     }
     return root;
 }

@@ -1,6 +1,7 @@
 #include "Scanner.h"
 #include <regex>
 #include <map>
+#include <sstream>
 
 using std::string;
 using std::vector;
@@ -124,9 +125,11 @@ vector<Token> Scanner::scan(vector<string> const lines)
         catch (std::invalid_argument e)
         {
             string msg(e.what());
+            string strline, strcol;
+            std::stringstream(strline) << (curr_line - lines.begin() + 1);
+            std::stringstream(strcol) << (strit - curr_line->begin());
             string prefix = "Scanner Error Occured. Compile FAIL.\n" +
-                std::to_string(curr_line - lines.begin() + 1) + ":" +
-                std::to_string(strit - curr_line->begin()) + "\t";
+                strline + ":" + strcol + "\t";
             msg = prefix + msg;
             throw msg;
         }

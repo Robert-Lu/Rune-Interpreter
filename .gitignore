@@ -4,6 +4,9 @@
 *.o
 *.obj
 
+#Rune Sourcecode
+*.rune
+
 # Precompiled Headers
 *.gch
 *.pch
