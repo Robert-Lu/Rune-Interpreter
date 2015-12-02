@@ -31,6 +31,7 @@ void show_help()
     std::cout << "Options: \n";
     std::cout << "  -token:\tShow the tokens of Scanning procedure.\n";
     std::cout << "  -ast:  \tShow the Abstract Parsing Tree of Parsing procedure.\n";
+    std::cout << "  -norun:\tNot run the code.\n";
 }
 
 void show_tokens(std::vector<Token> tokens)
@@ -61,7 +62,7 @@ void show_tokens(std::vector<Token> tokens)
 int main(int argc, char *argv[])
 {
     using namespace std;
-    bool print_tokens = false, print_ast = false; 
+    bool print_tokens = false, print_ast = false, no_run = false; 
     // Refer whether tokens and ast need to be printed. 
     int name_count = 0;
     // Count the filename inputed.
@@ -89,7 +90,12 @@ int main(int argc, char *argv[])
                 case 'a':
                     print_ast = true;
                     break;
+                case 'n':
+                    no_run = true;
+                    break;
                 default:
+                    cout << "unrecognized command line option \'"
+                         << argv[i] << '\'';  
                     show_help();
                     return -2;
                 }
@@ -140,9 +146,12 @@ int main(int argc, char *argv[])
             psr.show_tree(ast);
         }
         // print AST if has option "-ast".
-        Interpreter itp;
-        itp.execute(ast);
-        // Interprete the AST.
+        if (!no_run)
+        {
+            Interpreter itp;
+            itp.execute(ast);
+            // Interprete the AST.
+        }
     } 
     catch (string msg)
     {

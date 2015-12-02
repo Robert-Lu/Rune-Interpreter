@@ -31,7 +31,8 @@ void Interpreter::newID(string id, DataUnion du)
     if (IdentifierList.find(id) == IdentifierList.end())
         IdentifierList[id] = du;
     else
-        throw (string)"Conflicting type of \"" + id + "\".";
+        if (IdentifierList[id].type != du.type)
+            throw (string)"Conflicting type of \"" + id + "\".";
 }
 
 void Interpreter::changeID(string id, DataUnion du)
