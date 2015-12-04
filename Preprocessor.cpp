@@ -91,7 +91,10 @@ void Preprocessor::rune_replace(string &raw)
             strit = raw.insert(strit, ' ');
             strit++;
         }
-
+        if (*strit == '\r')
+        {
+            strit = raw.erase(strit);
+        }
         strit++;
     }
 }
